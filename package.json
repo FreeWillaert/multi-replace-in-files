@@ -1,0 +1,19 @@
+{
+  "name": "multi-replace-in-files",
+  "version": "0.0.1",
+  "description": "Simple wrapper around replace-in-file allowing to pass a json file to specify the replacements.",
+  "main": "index.js",
+  "scripts": {
+  },
+  "bin": {
+    "multi-replace-in-files": "./index.js"
+  },
+  "author": "Frederik Willaert",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.1.0",
+    "commander": "^2.11.0",
+    "lodash": "^4.17.4",
+    "replace-in-file": "^3.0.0-beta.2"
+  }
+}
