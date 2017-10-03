@@ -11,7 +11,7 @@ const replaceInFile = require('replace-in-file');
 try {
 
     commander
-        .arguments('<replacementsFile> <filesToReplace>')
+        .arguments('<replacementsFile> <filesToReplace>') // [<filesToIgnore>]
         .action(main)
         .parse(process.argv);
 
@@ -84,7 +84,11 @@ function escapeReplacementString(text) {
     return text.replace(/\$/g, '$$$$'); // each dollar sign is replaced by *TWO* dollar signs
 }
 
-function replaceInFiles(from, to, files) {
+function replaceInFiles(from, to, filesString) {
+    const files = filesString.split(',');
+
+    console.log(JSON.stringify(files));
+
     const options = {
         from,
         to,
