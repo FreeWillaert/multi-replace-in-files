@@ -11,7 +11,7 @@ const replaceInFile = require('replace-in-file');
 try {
 
     commander
-        .arguments('<replacementsFile> <filesToReplace>') // [<filesToIgnore>]
+        .arguments('<replacementsFile> <filesToReplace> [<filesToIgnore>]')
         .action(main)
         .parse(process.argv);
 
@@ -22,16 +22,16 @@ try {
     exitWithHelp();
 }
 
-function main(replacementsFilePath, filesToReplacePath) {
+function main(replacementsFilePath, filesToReplacePath, filesToIgnore) {
 
-    console.log(filesToReplacePath);
+    console.log("Replacing in " + filesToReplacePath);
+    console.log("Ignoring " + filesToIgnore);
 
     const replacementsData = readReplacementsData(replacementsFilePath);
 
     const replacements = parseReplacements(replacementsData);
 
-    replaceInFiles(replacements.from, replacements.to, filesToReplacePath);
-
+    replaceInFiles(replacements.from, replacements.to, filesToReplacePath, filesToIgnore);
 }
 
 function readReplacementsData(replacementsFilePath) {
@@ -61,7 +61,7 @@ function parseReplacements(replacementsData) {
             // Assume we always want to replace all occurrences!
             const fromValue = new RegExp(escapeRegExp(replacement[0]), "g");
             const toValue = escapeReplacementString(replacement[1]);
-            
+
             from.push(fromValue);
             to.push(toValue);
         });
@@ -75,7 +75,7 @@ function parseReplacements(replacementsData) {
 
 // From https://stackoverflow.com/a/9310752/3924042
 function escapeRegExp(text) {
-  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
 }
 
 // Since dollar signs are interpreted as special pattersn by String.Replace, escape each dollar sign - KISS, and assuming the user is not aware that String.Replace is used and/or that it has these special patterns.
@@ -84,16 +84,19 @@ function escapeReplacementString(text) {
     return text.replace(/\$/g, '$$$$'); // each dollar sign is replaced by *TWO* dollar signs
 }
 
-function replaceInFiles(from, to, filesString) {
+function replaceInFiles(from, to, filesString, ignoreString) {
     const files = filesString.split(',');
-
-    console.log(JSON.stringify(files));
-
     const options = {
         from,
         to,
         files
     };
+
+    if (ignoreString) {
+        options.ignore = ignoreString.split(',');
+    }
+
+    console.log("Replacing with options " + JSON.stringify(options));
 
     const changes = replaceInFile.sync(options);
     console.log('Modified files:', changes.join(', '));
@@ -101,6 +104,11 @@ function replaceInFiles(from, to, filesString) {
 
 
 function exitWithHelp() {
-    commander.help((helptext) => { return chalk.blue(helptext); });
+    commander.help((helptext) => {
+        helptext += "\n";
+        helptext += "  NOTE: filesToReplace and filesToIgnore can contain glob patterns and/or a comma-separated list. \n";
+        helptext += "        With glob patterns, make sure to enclose in quotes! \n"
+        return chalk.blue(helptext);
+    });
 }
 
