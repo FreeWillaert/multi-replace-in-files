@@ -1,12 +1,16 @@
 {
   "name": "multi-replace-in-files",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Simple wrapper around replace-in-file allowing to pass a json file to specify the replacements.",
   "main": "index.js",
   "scripts": {
   },
   "bin": {
     "multi-replace-in-files": "./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FreeWillaert/multi-replace-in-files.git"
   },
   "author": "Frederik Willaert",
   "license": "ISC",
