@@ -1,6 +1,6 @@
 {
   "name": "multi-replace-in-files",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Simple wrapper around replace-in-file allowing to pass a json file to specify the replacements.",
   "main": "index.js",
   "scripts": {

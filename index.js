@@ -96,8 +96,6 @@ function replaceInFiles(from, to, filesString, ignoreString) {
         options.ignore = ignoreString.split(',');
     }
 
-    console.log("Replacing with options " + JSON.stringify(options));
-
     const changes = replaceInFile.sync(options);
     console.log('Modified files:', changes.join(', '));
 }
