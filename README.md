@@ -14,11 +14,16 @@ For the initial version:
 ```
 $ multi-replace-in-files
 
-Usage: multi-replace-in-files [options] <replacementsFile> <filesToReplace>
+Usage: index [options] <replacementsFile> <filesToReplace> [<filesToIgnore>]
+
 
   Options:
 
     -h, --help  output usage information
+
+  NOTE: filesToReplace and filesToIgnore can contain glob patterns and/or a comma-separated list.
+        With glob patterns, make sure to enclose in quotes!
+
 ```
 
 The replacements file must contain a JSON array, consisting itself of arrays of size 2, e.g.
@@ -30,13 +35,11 @@ The replacements file must contain a JSON array, consisting itself of arrays of 
 
 Check the replace-in-file documentation to learn about regexes, glob patterns,...
 
-Important: If filesToReplace contains glob patterns, make sure to enclose it in quotes!
-
 
 # Roadmap
 
-Allow replacements file to contain a JSON object, for simple scenarios.
-Allow comments in replacments file somehow.
-Recursive replacements (but beware of endless loops).
-Support advanced replace-in-file options: ignore file, dsiable globs, specify encoding
-Make escapeReplacementString optional.
+- Allow replacements file to contain a JSON object, for simple scenarios.
+- Allow comments in replacments file somehow.
+- Recursive replacements (but beware of endless loops).
+- Support advanced replace-in-file options: ignore file, dsiable globs, specify encoding
+- Make escapeReplacementString optional.
